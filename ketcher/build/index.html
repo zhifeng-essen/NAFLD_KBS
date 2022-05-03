@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="./favicon.ico" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="./logo192.png" />
+    <link rel="manifest" href="./manifest.json" />
+    <title>Ketcher Demo</title>
+    <script src="./js/ketcherFunctions.js"></script>
+    <script defer="defer" src="./static/js/main.1579a8fa.js"></script>
+    <link href="./static/css/main.b21a294d.css" rel="stylesheet" />
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+  <script>
+    function sendMessageToStreamlitClient(type, data) {
+      var outData = Object.assign({
+        isStreamlitMessage: true,
+        type: type,
+      }, data);
+      window.parent.postMessage(outData, "*");
+    }
+
+    function init() {
+      sendMessageToStreamlitClient("streamlit:componentReady", {apiVersion: 1});
+    }
+
+    function setFrameHeight(height) {
+      sendMessageToStreamlitClient("streamlit:setFrameHeight", {height: height});
+    }
+
+    function sendDataToPython(data) {
+      sendMessageToStreamlitClient("streamlit:setComponentValue", data);
+    }
+
+    init();
+
+    window.addEventListener("load", function() {
+      window.setTimeout(function() {
+        setFrameHeight(document.documentElement.clientHeight)
+      }, 0);
+    });
+
+    // Optionally, if the automatic height computation fails you, give this component a height manually
+    // by commenting out below:
+    setFrameHeight(600);
+  </script>
+</html>
